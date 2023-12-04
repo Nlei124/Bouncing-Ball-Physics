@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32126.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouncing Ball Physics", "Bouncing Ball Physics.csproj", "{38C00158-7E0C-454B-91F6-2552B3DAA5AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38C00158-7E0C-454B-91F6-2552B3DAA5AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C00158-7E0C-454B-91F6-2552B3DAA5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C00158-7E0C-454B-91F6-2552B3DAA5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C00158-7E0C-454B-91F6-2552B3DAA5AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9BAC7F9-B1DD-4EC1-A43E-D31FAE32FB94}
+	EndGlobalSection
+EndGlobal
