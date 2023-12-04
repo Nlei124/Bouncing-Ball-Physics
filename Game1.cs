@@ -7,21 +7,32 @@ using System.Text;
 
 namespace Bouncing_Ball_Physics
 {
-    
+    enum InteractionMode
+    {
+        Select,
+        DragAndMove,
+        CreateObject,
+        CreateObjectWithSpecs
+    }
+
     public class Game1 : Game
     {
         
-        public int WindowW;
-        public int WindowH;
+        private int WindowW;
+        private int WindowH;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private List<BaseObject> balls;
         private Texture2D circleT;
         private SpriteFont font;
         private float fontHeight;
-        private double energy;
-        private double momentum;
+        private double totalEnergy;
+        private double totalMomentum;
         private MouseState prevMState;
+
+        private InteractionMode interactionMode;
+        private bool displayInfo;
+        private bool pauseBalls;
 
         public Game1()
         {
@@ -38,11 +49,6 @@ namespace Bouncing_Ball_Physics
                 balls[0].WWidth = _graphics.GraphicsDevice.Viewport.Width;
                 balls[0].WHeight = _graphics.GraphicsDevice.Viewport.Height;
             }
-            foreach (BaseObject b in balls)
-            {
-                b.WWidth = _graphics.GraphicsDevice.Viewport.Width;
-                b.WHeight = _graphics.GraphicsDevice.Viewport.Height;
-            }
             WindowW = _graphics.GraphicsDevice.Viewport.Width;
             WindowH = _graphics.GraphicsDevice.Viewport.Height;
         }
@@ -51,11 +57,11 @@ namespace Bouncing_Ball_Physics
         {
             // TODO: Add your initialization logic here
             balls = new List<BaseObject>();
-            WindowW = _graphics.PreferredBackBufferWidth;
-            WindowH = _graphics.PreferredBackBufferHeight;
-            //_graphics.PreferredBackBufferWidth = WindowW;
-            //_graphics.PreferredBackBufferHeight = WindowH;
-            //_graphics.ApplyChanges();
+            WindowW = 800;
+            WindowH = 480;
+            _graphics.PreferredBackBufferWidth = WindowW;
+            _graphics.PreferredBackBufferHeight = WindowH;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -86,12 +92,24 @@ namespace Bouncing_Ball_Physics
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             MouseState mState = Mouse.GetState();
+            switch (interactionMode)
+            {
+                case InteractionMode.Select:
+                    break;
+                case InteractionMode.DragAndMove: 
+                    break;
+                case InteractionMode.CreateObject: 
+                    break;
+                case InteractionMode.CreateObjectWithSpecs:
+                    break;
+                default: 
+                    break;
+            }
             if(mState.LeftButton == ButtonState.Pressed && prevMState.LeftButton == ButtonState.Released)
             {
                 balls.Add(new BaseObject(circleT, mState.X, mState.Y, 30, new Vector2()));
             }
 
-            // TODO: Add your update logic here
             foreach (BaseObject b in balls)
             {
                 b.Update(gameTime);
@@ -118,21 +136,21 @@ namespace Bouncing_Ball_Physics
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            energy = 0;
-            momentum = 0;
+            totalEnergy = 0;
+            totalMomentum = 0;
 
             foreach (BaseObject b in balls)
             {
                 b.Draw(_spriteBatch);
-                energy += b.Energy;
-                momentum += b.Momentum;
+                totalEnergy += b.Energy;
+                totalMomentum += b.Momentum;
             }
 
             //_spriteBatch.DrawString(font, String.Format(balls[0].X.ToString()), new Vector2(), Color.Black);
             _spriteBatch.DrawString(font, String.Format("Ball 1 Redness" + balls[0].Redness.ToString()), new Vector2(), Color.Black);
-            _spriteBatch.DrawString(font, String.Format("KE: {0:F4}", energy/10000000), new Vector2(0, fontHeight), Color.Black);
-            _spriteBatch.DrawString(font, String.Format("Mom: {0:F4}", momentum/10000), new Vector2(0, fontHeight*2), Color.Black);
-
+            _spriteBatch.DrawString(font, String.Format("KE: {0:F4}", totalEnergy / 10000000), new Vector2(0, fontHeight), Color.Black);
+            _spriteBatch.DrawString(font, String.Format("Mom: {0:F4}", totalMomentum / 10000), new Vector2(0, fontHeight*2), Color.Black);
+            
             //MouseState mState = Mouse.GetState();
             //_spriteBatch.Draw(circleT, new Rectangle(mState.X - 25, mState.Y -25, 50, 50), Color.White);
             _spriteBatch.End();

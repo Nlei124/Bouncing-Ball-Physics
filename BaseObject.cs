@@ -96,7 +96,11 @@ namespace Bouncing_Ball_Physics
             Vector2 prevPosition = curPosition;
             UpdatePosition(gameTime.ElapsedGameTime.TotalSeconds);
             curPosition = KeepInBounds(prevPosition, gameTime.ElapsedGameTime.TotalSeconds);
-            redness -= (float) gameTime.ElapsedGameTime.TotalSeconds * 100;
+            if(redness > 0)
+            {
+                redness -= (float)gameTime.ElapsedGameTime.TotalSeconds * 100;
+            }
+            
         }
         public void UpdatePosition(double time)
         {
@@ -216,7 +220,7 @@ namespace Bouncing_Ball_Physics
 
         public bool CheckCollide(BaseObject other)
         {
-            if(radius + other.radius >= Distance(curPosition, other.curPosition))
+            if(radius + other.radius > Distance(curPosition, other.curPosition))
             {
                 return true;
             }
