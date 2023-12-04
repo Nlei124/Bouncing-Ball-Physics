@@ -29,6 +29,7 @@ namespace Bouncing_Ball_Physics
         private double totalEnergy;
         private double totalMomentum;
         private MouseState prevMState;
+        private KeyboardState prevKeyboardState;
 
         private InteractionMode interactionMode;
         private bool displayInfo;
@@ -71,8 +72,8 @@ namespace Bouncing_Ball_Physics
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             circleT = Content.Load<Texture2D>("Circle");
             
-            balls.Add(new BaseObject(circleT, 50, 300, 50, new Vector2(120, 50)));
-            balls.Add(new BaseObject(circleT, 300, 400, 20, new Vector2(100, 0)));
+            balls.Add(new BaseObject(circleT, 50, 300, 30, new Vector2(120, 50)));
+            //balls.Add(new BaseObject(circleT, 300, 400, 20, new Vector2(100, 0)));
             /*balls.Add(new BaseObject(circleT, 500, 100, 20, new Vector2(100, 500)));
             balls.Add(new BaseObject(circleT, 300, 200, 50, new Vector2(300, 500)));
             balls.Add(new BaseObject(circleT, 300, 20, 40, new Vector2(300, 300)));
@@ -92,6 +93,7 @@ namespace Bouncing_Ball_Physics
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             MouseState mState = Mouse.GetState();
+            KeyboardState kbState = Keyboard.GetState();
             switch (interactionMode)
             {
                 case InteractionMode.Select:
@@ -108,6 +110,11 @@ namespace Bouncing_Ball_Physics
             if(mState.LeftButton == ButtonState.Pressed && prevMState.LeftButton == ButtonState.Released)
             {
                 balls.Add(new BaseObject(circleT, mState.X, mState.Y, 30, new Vector2()));
+            }
+            //Speed adding
+            if (kbState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
+            {
+                AddVelocity(100);
             }
 
             foreach (BaseObject b in balls)
@@ -129,6 +136,7 @@ namespace Bouncing_Ball_Physics
                 }
             }
             prevMState = mState;
+            prevKeyboardState = kbState;
             base.Update(gameTime);
         }
 
@@ -156,6 +164,30 @@ namespace Bouncing_Ball_Physics
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Adds Velocity vector to all objects 
+        /// </summary>
+        /// <param name="amount">Magnitude of Velocity added</param>
+        private void AddVelocity(int amount)
+        {
+            foreach(BaseObject b in balls)
+            {
+                b.addVelocity(GetRandVelocity() * amount);
+            }
+            
+        }
+
+        /// <summary>
+        /// Gets a velocity vector in a random direction
+        /// </summary>
+        private Vector2 GetRandVelocity()
+        {
+            Random random = new Random();
+            int a = random.Next(360);
+
+            return new Vector2((float)Math.Cos(a * Math.PI / 180), (float)Math.Sin(a * Math.PI / 180));
         }
     }
 }

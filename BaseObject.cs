@@ -83,6 +83,11 @@ namespace Bouncing_Ball_Physics
             get { return (int) redness; }
         }
 
+        public void addVelocity(Vector2 vel)
+        {
+            velocity += vel;
+        }
+
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(circleTexture,
@@ -234,12 +239,10 @@ namespace Bouncing_Ball_Physics
 
         private void IncreaseRedness()
         {
-            /*
-            if(redness < 255)
+            if(redness < 225)
             {
-                redness += 10;
-            }*/
-            redness = 200;
+                redness += 50;
+            }
         }
     }
 }
